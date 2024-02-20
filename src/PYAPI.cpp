@@ -25,6 +25,7 @@ inline py::tuple salient_segments_to_py(const upm::SalientSegments &ssegs) {
 
 py::tuple compute_elsed(const py::array &py_img,
                         float sigma = 1,
+                        uint scanInterval = 2,
                         float gradientThreshold = 30,
                         int minLineLen = 15,
                         double lineFitErrThreshold = 0.2,
@@ -40,6 +41,7 @@ py::tuple compute_elsed(const py::array &py_img,
 
   params.sigma = sigma;
   params.ksize = cvRound(sigma * 3 * 2 + 1) | 1; // Automatic kernel size detection
+  params.scanIntervals = scanInterval;
   params.gradientThreshold = gradientThreshold;
   params.minLineLen = minLineLen;
   params.lineFitErrThreshold = lineFitErrThreshold;
@@ -60,6 +62,7 @@ PYBIND11_MODULE(pyelsed, m) {
     )pbdoc",
         py::arg("img"),
         py::arg("sigma") = 1,
+        py::arg("scanInterval") = 2,
         py::arg("gradientThreshold") = 30,
         py::arg("minLineLen") = 15,
         py::arg("lineFitErrThreshold") = 0.2,
